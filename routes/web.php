@@ -12,5 +12,5 @@ Route::get('/', function () {
 
 
 Route::middleware([Authenticate::class])->group(function () {
-
+    
 });
