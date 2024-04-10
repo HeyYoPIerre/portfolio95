@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Section extends Model
 {
     use HasFactory;
-     
+    
+    protected $guarded = [];
+
     public function images(): HasMany
     {
         return $this->hasMany(Image::class);
