@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('filepath');
             $table->string('alt')->nullable();
+            $table->foreignId('section_id')->constrained(); //relation obligatoire
             $table->timestamps();
         });
     }

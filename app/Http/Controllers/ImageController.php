@@ -6,10 +6,11 @@ use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreImage;
+use Intervention\Image\ImageManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreImageRequest;
-use Intervention\Image\ImageManagerStatic;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ImageController extends Controller
 {
@@ -49,15 +50,21 @@ class ImageController extends Controller
             $height = 2000;
         }
 
-        $photo = ImageManagerStatic::make($filepath)->fit($width,$height);
-        $photoName = Str::random(10) . time() . ".webp";
-        Storage::disk('public')->put('/images/' . $photoName, $photo->encode('webp'));
+        $photo = new ImageManager(new Driver());
+        $photo = $photo->read($filepath)->scale($width,$height); // ou scaleDown
+
+        // $photoName = Str::random(10) . time() . ".webp";
+        // Storage::disk('public')->put('/images/' . $photoName, $photo->toWebp());
+
+        // // $photo = ImageManager::read($filepath)->fit($width,$height);
+        // // $photoName = Str::random(10) . time() . ".webp";
+        // // Storage::disk('public')->put('/images/' . $photoName, $photo->encode('webp'));
 
 
-        $image = new Image();
-        $image->alt = $request->alt;
-        $image->filepath = '/images/' . $photoName;
-        $image->save();
+        // $image = new Image();
+        // $image->alt = $request->alt;
+        // $image->filepath = '/images/' . $photoName;
+        // $image->save();
 
         return redirect('/admin/photos');
 
