@@ -13,8 +13,8 @@ class Section extends Model
     
     protected $guarded = [];
 
-    public function images(): HasMany
+    public function galleries(): HasMany
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Gallery::class);
     }
 }
