@@ -50,15 +50,15 @@ class ImageController extends Controller
             $height = 2000;
         }
 
-        $photo = new ImageManager(new Driver());
-        $photo = $photo->read($filepath)->scale($width,$height); // ou scaleDown
+        // $photo = new ImageManager(new Driver());
+        // $photo = $photo->read($filepath)->scale($width,$height); // ou scaleDown
 
         // $photoName = Str::random(10) . time() . ".webp";
         // Storage::disk('public')->put('/images/' . $photoName, $photo->toWebp());
 
-        // // $photo = ImageManager::read($filepath)->fit($width,$height);
-        // // $photoName = Str::random(10) . time() . ".webp";
-        // // Storage::disk('public')->put('/images/' . $photoName, $photo->encode('webp'));
+        // $photo = ImageManager::read($filepath)->fit($width,$height);
+        // $photoName = Str::random(10) . time() . ".webp";
+        // Storage::disk('public')->put('/images/' . $photoName, $photo->encode('webp'));
 
 
         // $image = new Image();

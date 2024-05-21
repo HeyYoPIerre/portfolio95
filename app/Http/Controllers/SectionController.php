@@ -36,7 +36,7 @@ class SectionController extends Controller
     {
         Section::create($request->validated());
         return redirect()->route('sections.index')
-                        ->with('success', 'Section created successfully.');
+                    ->with('success', 'Section created successfully.');
     }
 
     /**
