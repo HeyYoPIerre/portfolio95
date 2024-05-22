@@ -1,48 +1,50 @@
 @extends('galleries.layout')
-    
+
 @section('content')
-  
+
 <div class="card mt-5">
-  <h2 class="card-header">Edit gallery</h2>
+  <h2 class="card-header">Update Gallery</h2>
   <div class="card-body">
-  
+
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary btn-sm" href="{{ route('galleries.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
     </div>
-  
-    <form action="{{ route('galleries.update',$gallery->id) }}" method="POST">
+
+    <input type="hidden" name="id" value="{{ $gallery->id }}">
+
+    <form action="{{ route('galleries.update', ['gallery' => $gallery->id]) }}" method="POST">
         @csrf
         @method('PUT')
-  
+
         <div class="mb-3">
             <label for="inputName" class="form-label"><strong>Name:</strong></label>
             <input 
                 type="text" 
                 name="name" 
-                value="{{ $gallery->name }}"
                 class="form-control @error('name') is-invalid @enderror" 
                 id="inputName" 
-                placeholder="Name">
+                placeholder="Name"
+                value="{{ old('name', $gallery->name ) }}">
             @error('name')
                 <div class="form-text text-danger">{{ $message }}</div>
             @enderror
         </div>
-  
         <div class="mb-3">
-            <label for="inputDetail" class="form-label"><strong>Detail:</strong></label>
-            <textarea 
-                class="form-control @error('detail') is-invalid @enderror" 
-                style="height:150px" 
-                name="detail" 
-                id="inputDetail" 
-                placeholder="Detail">{{ $gallery->detail }}</textarea>
-            @error('detail')
+            <label for="sectionSelect" class="form-label"><strong>Section:</strong></label>
+            <select name="section_id" class="form-select @error('section_id') is-invalid @enderror" id="sectionSelect">
+                <option value="">Please select a section</option>
+                @foreach($sections as $section)
+                    <option value="{{ $section->id }}" {{ $section->id == $gallery->section_id? 'selected' : '' }}>{{ $section->name }}</option>
+                @endforeach
+            </select>
+            @error('section_id')
                 <div class="form-text text-danger">{{ $message }}</div>
             @enderror
         </div>
         <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Update</button>
     </form>
-  
+
   </div>
 </div>
+
 @endsection

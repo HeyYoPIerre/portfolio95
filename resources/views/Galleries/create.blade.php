@@ -25,6 +25,18 @@
                 <div class="form-text text-danger">{{ $message }}</div>
             @enderror
         </div>
+        <div class="mb-3">
+            <label for="sectionSelect" class="form-label"><strong>Section:</strong></label>
+            <select name="section_id" class="form-select @error('section_id') is-invalid @enderror" id="sectionSelect">
+                <option value="">Please select a section</option>
+                @foreach($sections as $section)
+                    <option value="{{ $section->id }}">{{ $section->name }}</option>
+                @endforeach
+            </select>
+            @error('section_id')
+                <div class="form-text text-danger">{{ $message }}</div>
+            @enderror
+        </div>
         <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
     </form>
   

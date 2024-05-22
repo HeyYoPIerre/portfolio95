@@ -35,14 +35,16 @@ class GalleryController extends Controller
      */
     public function store(GalleryStoreRequest $request): RedirectResponse
     {
-        $gallery = Gallery::create($request->validated());
-
-        $sectionIds = $request->input('sections');
-
-        $gallery->sections()->attach($sectionIds);
-
-        return redirect()->route('galleries.index')
-                    ->with('success', 'Gallery created successfully.');
+        if ($request->has('section_id')) {
+            $sectionId = $request->input('section_id');
+            $gallery = Gallery::create([
+                'name' => $request->input('name'),
+                'section_id' => $sectionId,
+            ]);
+            return redirect()->route('galleries.index')
+                            ->with('success', 'Galerie créée avec succès.');
+        }
+        return redirect()->back()->withErrors(['section_id' => 'Veuillez sélectionner une section.']);
     }
 
     /**
@@ -61,21 +63,21 @@ class GalleryController extends Controller
         return view('galleries.edit',compact('gallery'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(GalleryUpdateRequest $request, Gallery $gallery): RedirectResponse
+    public function update(Gallery $gallery, Request $request)
     {
-        $gallery->update($request->validated());
-
-        $newSectionIds = $request->input('sections');
+        if ($request->has('section_id')) {
+            $sectionId = $request->input('section_id');
+            $gallery->update([
+                'name' => $request->input('name'),
+                'section_id' => $sectionId,
+            ]);
     
-        $gallery->sections()->sync($newSectionIds);
+            return redirect()->route('galleries.index')
+                            ->with('success', 'Galerie mise à jour avec succès.');
+        }
     
-        return redirect()->route('galleries.index')
-            ->with('success', 'Gallery updated successfully.');
+        return redirect()->back()->withErrors(['section_id' => 'Veuillez sélectionner une section.', 'id' => 'La galerie n\'existe pas.']);
     }
-
     /**
      * Remove the specified resource from storage.
      */
