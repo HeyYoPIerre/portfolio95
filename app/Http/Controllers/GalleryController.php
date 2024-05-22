@@ -35,7 +35,12 @@ class GalleryController extends Controller
      */
     public function store(GalleryStoreRequest $request): RedirectResponse
     {
-        Gallery::create($request->validated());
+        $gallery = Gallery::create($request->validated());
+
+        $sectionIds = $request->input('sections');
+
+        $gallery->sections()->attach($sectionIds);
+
         return redirect()->route('galleries.index')
                     ->with('success', 'Gallery created successfully.');
     }
@@ -62,8 +67,13 @@ class GalleryController extends Controller
     public function update(GalleryUpdateRequest $request, Gallery $gallery): RedirectResponse
     {
         $gallery->update($request->validated());
+
+        $newSectionIds = $request->input('sections');
+    
+        $gallery->sections()->sync($newSectionIds);
+    
         return redirect()->route('galleries.index')
-                        ->with('success','Gallery updated successfully');
+            ->with('success', 'Gallery updated successfully.');
     }
 
     /**

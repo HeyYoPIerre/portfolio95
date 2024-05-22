@@ -23,6 +23,7 @@ class GalleryStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'sections.*' => 'exists:sections,id'
         ];
     }
 }
