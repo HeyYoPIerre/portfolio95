@@ -21,7 +21,7 @@ class ImageController extends Controller
     {
         $images = Image::paginate(9);
         
-        return view('pages.admin.photos.index', compact('images'));
+        return view('pages.admin.images.index', compact('images'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.photos.create');
+        return view('pages.admin.images.create');
     }
 
     /**
@@ -66,7 +66,7 @@ class ImageController extends Controller
         // $image->filepath = '/images/' . $photoName;
         // $image->save();
 
-        return redirect('/admin/photos');
+        return redirect('/admin/images');
 
     }
     /**
@@ -89,6 +89,6 @@ class ImageController extends Controller
 
         $image->delete();
 
-        return redirect('/admin/photos')->with('success','RIP');
+        return redirect('/admin/images')->with('success','RIP');
     }
 }
